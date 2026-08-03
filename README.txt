@@ -1,0 +1,1 @@
+Replace images/project1.jpg etc. and hero background with your own assets.
