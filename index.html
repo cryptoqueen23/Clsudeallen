@@ -1,116 +1,672 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Claude Allen Foundation Repair</title>
-<link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Foundation Repair & Concrete Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --soil:      #17140F;
+    --soil-2:    #221E17;
+    --concrete:  #E6E1D6;
+    --concrete-2:#D2CCBC;
+    --steel:     #57626C;
+    --steel-text:#3A434B;
+    --rebar:     #B9501E;
+    --rebar-text:#8A3A12;
+    --level:     #9FB233;
+    --cream-text:#F3EFE4;
+    --radius: 2px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--soil);
+    background:var(--concrete);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  img,svg{display:block; max-width:100%;}
+  .mono{font-family:'IBM Plex Mono',monospace; letter-spacing:.02em;}
+  :focus-visible{outline:3px solid var(--rebar); outline-offset:3px;}
+
+  /* ---------- skip link ---------- */
+  .skip-link{
+    position:absolute; left:1rem; top:-3rem;
+    background:var(--cream-text); color:var(--soil);
+    padding:.7rem 1.1rem; z-index:100; font-family:'IBM Plex Mono',monospace;
+    font-size:.85rem; border-radius:var(--radius);
+    transition:top .15s ease;
+  }
+  .skip-link:focus{ top:1rem; }
+
+  /* ---------- mockup banner ---------- */
+  .mockup-banner{
+    background:var(--rebar);
+    color:var(--cream-text);
+    text-align:center;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.72rem;
+    letter-spacing:.06em;
+    padding:.6rem 1rem;
+  }
+  .mockup-banner a{ text-decoration:underline; text-underline-offset:2px; }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 1.25rem; }
+  @media(min-width:640px){ .wrap{ padding:0 1.5rem; } }
+
+  /* ---------- header ---------- */
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:var(--soil);
+    border-bottom:1px solid #3a352c;
+  }
+  .nav{ display:flex; align-items:center; justify-content:space-between; padding:.85rem 1.25rem; min-height:64px; }
+  @media(min-width:640px){ .nav{ padding:1rem 1.5rem; } }
+  .brand-mark{
+    font-family:'Big Shoulders',sans-serif; font-weight:800; font-size:1.35rem;
+    color:var(--cream-text); letter-spacing:.02em;
+  }
+  @media(min-width:640px){ .brand-mark{ font-size:1.5rem; } }
+
+  nav.links{ display:none; gap:2rem; align-items:center; }
+  @media(min-width:860px){ nav.links{ display:flex; } }
+  nav.links a{
+    color:var(--concrete-2); font-size:.92rem; font-weight:500;
+    padding:.5rem 0; border-bottom:2px solid transparent;
+    transition:color .2s, border-color .2s;
+  }
+  nav.links a:hover{ color:var(--cream-text); border-color:var(--level); }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+    font-family:'IBM Plex Mono',monospace; font-size:.82rem; font-weight:600;
+    padding:.7rem 1.3rem; min-height:44px; border-radius:var(--radius);
+    border:1px solid transparent; cursor:pointer;
+    transition:transform .15s ease, background .2s ease;
+  }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn-primary{ background:var(--rebar); color:var(--cream-text); }
+  .btn-primary:hover{ background:#cc5b26; }
+  .btn-ghost{ border-color:var(--concrete-2); color:var(--concrete-2); background:transparent; }
+  .btn-ghost:hover{ border-color:var(--cream-text); color:var(--cream-text); }
+
+  .nav-cta{ display:flex; gap:.6rem; align-items:center; }
+  .nav-phone{ display:none; }
+  @media(min-width:860px){ .nav-phone{ display:inline-flex; } }
+  .nav-estimate-text{ display:none; }
+  @media(min-width:420px){ .nav-estimate-text{ display:inline; } }
+
+  /* ---------- burger ---------- */
+  .burger{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:44px; height:44px; background:transparent; border:1px solid #3a352c;
+    border-radius:var(--radius); cursor:pointer;
+  }
+  @media(min-width:860px){ .burger{ display:none; } }
+  .burger-box{ position:relative; width:20px; height:14px; display:block; }
+  .burger-line{
+    position:absolute; left:0; width:100%; height:2px; background:var(--cream-text);
+    transition:transform .2s ease, opacity .2s ease, top .2s ease;
+  }
+  .burger-line:nth-child(1){ top:0; }
+  .burger-line:nth-child(2){ top:6px; }
+  .burger-line:nth-child(3){ top:12px; }
+  .burger.is-open .burger-line:nth-child(1){ top:6px; transform:rotate(45deg); }
+  .burger.is-open .burger-line:nth-child(2){ opacity:0; }
+  .burger.is-open .burger-line:nth-child(3){ top:6px; transform:rotate(-45deg); }
+
+  .mobile-menu{
+    background:var(--soil-2); border-bottom:1px solid #3a352c;
+  }
+  @media(min-width:860px){ .mobile-menu{ display:none !important; } }
+  .mobile-menu[hidden]{ display:none; }
+  .mobile-menu ul{ list-style:none; }
+  .mobile-menu li + li{ border-top:1px solid #3a352c; }
+  .mobile-menu a{
+    display:flex; align-items:center; min-height:52px;
+    padding:0 1.5rem; color:var(--concrete-2); font-size:1rem; font-weight:500;
+  }
+  .mobile-menu a:hover, .mobile-menu a:focus-visible{ color:var(--cream-text); background:#2b261d; }
+  .mobile-menu .mobile-phone{ color:var(--level); font-family:'IBM Plex Mono',monospace; }
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(159,178,51,.10), transparent 60%),
+      var(--soil);
+    color:var(--cream-text);
+    position:relative;
+    overflow:hidden;
+    padding:2.75rem 0 3.5rem;
+    border-bottom:1px solid #3a352c;
+  }
+  @media(min-width:640px){ .hero{ padding:4rem 0 4.5rem; } }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(230,225,214,.035) 27px, rgba(230,225,214,.035) 28px);
+    pointer-events:none;
+  }
+  .hero-split{
+    position:relative; z-index:1;
+    display:grid; grid-template-columns:1fr; gap:2.75rem; align-items:center;
+  }
+  @media(min-width:940px){ .hero-split{ grid-template-columns:1fr .95fr; gap:3.5rem; } }
+
+  .reveal{ opacity:0; transform:translateY(14px); animation:reveal-up .7s ease forwards; }
+  @keyframes reveal-up{ to{ opacity:1; transform:translateY(0); } }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; animation:none; }
+  }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:.5rem;
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.14em;
+    color:var(--level); margin-bottom:1.1rem;
+  }
+  .eyebrow::before{ content:""; width:22px; height:1px; background:var(--level); }
+
+  h1.hero-title{
+    font-size:clamp(2.2rem, 7.2vw, 4rem);
+    line-height:1.03;
+    font-weight:700;
+    letter-spacing:.005em;
+  }
+  h1.hero-title .accent{ color:var(--rebar); }
+  .hero-sub{
+    margin-top:1.4rem; max-width:46ch;
+    color:var(--concrete-2); font-size:1.05rem;
+  }
+  .hero-actions{ display:flex; flex-wrap:wrap; gap:1rem; margin-top:2rem; }
+
+  /* ---------- hero visual (split-screen image side) ---------- */
+  .hero-visual{ position:relative; margin-bottom:2.25rem; }
+  .visual-frame{
+    position:relative; overflow:hidden;
+    border-radius:10px;
+    border:1px solid #3a352c;
+    aspect-ratio:4/3;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.55);
+  }
+  @media(min-width:640px){ .visual-frame{ aspect-ratio:5/4; } }
+  @media(min-width:940px){ .visual-frame{ aspect-ratio:4/5; } }
+  .visual-illustration{
+    position:absolute; inset:0; width:100%; height:100%;
+    animation:slow-zoom 22s ease-in-out infinite alternate;
+    transform-origin:50% 65%;
+  }
+  @keyframes slow-zoom{ from{ transform:scale(1); } to{ transform:scale(1.07); } }
+  @media (prefers-reduced-motion: reduce){
+    .visual-illustration{ animation:none; }
+  }
+
+  /* floating glassmorphism trust cards */
+  .trust-cards{
+    position:absolute; left:0; right:0; bottom:0;
+    display:flex; gap:.6rem; flex-wrap:wrap;
+    padding:0 .9rem; transform:translateY(50%);
+    justify-content:center;
+  }
+  @media(min-width:640px){ .trust-cards{ padding:0 1.4rem; gap:.85rem; } }
+  .trust-card{
+    flex:1 1 140px; max-width:200px;
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:.15rem;
+    padding:.75rem .6rem;
+    background:rgba(23,20,15,.6);
+    -webkit-backdrop-filter:blur(14px) saturate(140%);
+    backdrop-filter:blur(14px) saturate(140%);
+    border:1px solid rgba(243,239,228,.18);
+    border-radius:8px;
+    box-shadow:0 12px 28px -12px rgba(0,0,0,.5);
+    animation:card-float 5s ease-in-out infinite;
+  }
+  .trust-card:nth-child(1){ animation-delay:0s; }
+  .trust-card:nth-child(2){ animation-delay:.6s; }
+  .trust-card:nth-child(3){ animation-delay:1.2s; }
+  @keyframes card-float{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-6px); } }
+  @media (prefers-reduced-motion: reduce){ .trust-card{ animation:none; } }
+  .trust-card .tc-num{ font-family:'Big Shoulders',sans-serif; font-weight:700; font-size:1.15rem; color:var(--cream-text); line-height:1; }
+  .trust-card .tc-lbl{ font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--concrete-2); letter-spacing:.03em; line-height:1.25; }
+  .trust-card .tc-stars{ color:var(--level); font-size:.85rem; letter-spacing:.1em; }
+
+  /* ---------- stats bar (below hero) ---------- */
+  .stats-bar-wrap{ background:var(--concrete-2); border-bottom:1px solid #c7c1b1; }
+  .stats-bar{
+    padding:3.25rem 0 2.25rem;
+    display:grid; grid-template-columns:repeat(2,1fr); gap:1.75rem 1rem;
+  }
+  @media(min-width:640px){ .stats-bar{ grid-template-columns:repeat(4,1fr); padding:2.5rem 0; gap:1rem; } }
+  .stats-bar .stat{ text-align:center; }
+  .stats-bar .stat .num{ font-family:'Big Shoulders',sans-serif; font-weight:700; font-size:2rem; color:var(--soil); }
+  @media(min-width:640px){ .stats-bar .stat .num{ font-size:2.4rem; } }
+  .stats-bar .stat .lbl{
+    margin-top:.3rem; font-family:'IBM Plex Mono',monospace; font-size:.66rem; color:var(--steel-text);
+    letter-spacing:.04em; text-transform:uppercase;
+  }
+
+  /* ---------- section shell ---------- */
+  section{ padding:3.5rem 0; }
+  @media(min-width:640px){ section{ padding:5rem 0; } }
+  .section-head{ max-width:640px; margin-bottom:2.4rem; }
+  .section-eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.14em;
+    color:var(--rebar-text); text-transform:uppercase; margin-bottom:.7rem; display:block;
+  }
+  .section-title{ font-size:clamp(1.6rem,6vw,2.6rem); font-weight:700; line-height:1.1; }
+  .section-body{ margin-top:1rem; color:#4a453c; max-width:56ch; }
+
+  /* ---------- services: depth cross-section ---------- */
+  .services{ background:var(--concrete); }
+  .depth-rail{ position:relative; padding-left:1.6rem; }
+  @media(min-width:640px){ .depth-rail{ padding-left:2.4rem; } }
+  .depth-rail::before{
+    content:""; position:absolute; left:5px; top:6px; bottom:6px; width:2px;
+    background:repeating-linear-gradient(180deg, var(--steel) 0 6px, transparent 6px 12px);
+  }
+  .ground-mark{
+    font-family:'IBM Plex Mono',monospace; font-size:.66rem; color:var(--steel-text);
+    letter-spacing:.06em; margin-bottom:1.5rem; margin-left:-1.6rem; padding-left:1.6rem;
+    border-top:1px dashed var(--steel); padding-top:.5rem;
+  }
+  @media(min-width:640px){ .ground-mark{ margin-left:-2.4rem; padding-left:2.4rem; } }
+  .depth-item{
+    position:relative;
+    display:grid; grid-template-columns:1fr; gap:.3rem;
+    padding:1.4rem 0; align-items:start;
+  }
+  @media(min-width:560px){ .depth-item{ grid-template-columns:auto 1fr; gap:1.4rem; } }
+  .depth-item + .depth-item{ border-top:1px solid #c7c1b1; }
+  .depth-item::before{
+    content:""; position:absolute; left:-1.6rem; top:2rem;
+    width:11px; height:11px; border-radius:50%;
+    background:var(--concrete); border:2px solid var(--rebar);
+  }
+  @media(min-width:640px){ .depth-item::before{ left:-2.4rem; } }
+  .depth-tag{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--steel-text);
+    white-space:nowrap; min-width:64px;
+  }
+  .depth-title{ font-family:'Big Shoulders',sans-serif; font-weight:700; font-size:1.35rem; text-transform:uppercase; }
+  @media(min-width:640px){ .depth-title{ font-size:1.5rem; } }
+  .depth-desc{ color:#4a453c; margin-top:.35rem; max-width:52ch; }
+
+  /* ---------- legacy strata ---------- */
+  .legacy{ background:var(--soil); color:var(--cream-text); }
+  .strata{
+    display:grid; grid-template-columns:1fr; gap:1px;
+    background:#3a352c; margin-top:2.4rem;
+  }
+  @media(min-width:560px){ .strata{ grid-template-columns:repeat(2,1fr); } }
+  @media(min-width:940px){ .strata{ grid-template-columns:repeat(4,1fr); } }
+  .stratum{ background:var(--soil-2); padding:1.5rem 1.3rem; }
+  .stratum .yr{ font-family:'IBM Plex Mono',monospace; color:var(--level); font-size:.78rem; }
+  .stratum h3.gen{ font-family:'Big Shoulders',sans-serif; font-size:1.4rem; font-weight:700; margin:.4rem 0 .5rem; text-transform:none; }
+  .stratum p{ color:var(--concrete-2); font-size:.9rem; }
+
+  /* ---------- reviews ---------- */
+  .reviews{ background:var(--concrete-2); }
+  .review-grid{ display:grid; gap:1.25rem; grid-template-columns:1fr; }
+  @media(min-width:760px){ .review-grid{ grid-template-columns:repeat(3,1fr); gap:1.5rem; } }
+  .review-card{ background:var(--concrete); border:1px solid #c7c1b1; padding:1.5rem; position:relative; }
+  .review-card .stars{ color:var(--rebar-text); font-size:.9rem; letter-spacing:.15em; }
+  .review-card .stamp{
+    position:absolute; top:1.2rem; right:1.2rem;
+    font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--steel-text);
+    border:1px solid var(--steel); padding:.15rem .4rem; letter-spacing:.05em;
+  }
+  .review-card blockquote{ margin-top:1.1rem; font-size:1rem; }
+  .review-card cite{ display:block; margin-top:1rem; font-style:normal; font-family:'IBM Plex Mono',monospace; font-size:.75rem; color:#4a453c; }
+
+  /* ---------- contact / footer ---------- */
+  .contact{ background:var(--soil); color:var(--cream-text); text-align:center; }
+  .contact .section-title{ color:var(--cream-text); }
+  .contact .section-body{ color:var(--concrete-2); margin-inline:auto; }
+  .contact .hero-actions{ justify-content:center; margin-top:2.2rem; }
+  .phone-big{
+    font-family:'Big Shoulders',sans-serif; font-weight:700; font-size:clamp(1.6rem,6vw,2.6rem);
+    color:var(--level);
+  }
+
+  footer.site{
+    background:var(--soil-2); color:var(--concrete-2);
+    padding:1.6rem 0; text-align:center;
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.04em;
+    border-top:1px solid #3a352c;
+  }
+  footer.site a{ color:var(--level); text-decoration:underline; text-underline-offset:2px; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
+  }
+</style>
 </head>
 <body>
+
 <a class="skip-link" href="#main">Skip to main content</a>
 
-<header class="header">
-<div class="container nav">
-<div class="brand">
-<h2>CLAUDE ALLEN</h2>
-<p>Serving Central Texas Since 1963</p>
+<div class="mockup-banner">
+  Foundation contractor website demo · prepared by <a href="https://tree.phoenixsecuritas.com" target="_blank" rel="noopener">Phoenix Securitas Tech</a>
 </div>
-<nav>
-<a href="#services">Services</a>
-<a href="#about">About</a>
-<a href="#reviews">Reviews</a>
-<a href="#contact" class="btn small">Free Estimate</a>
-</nav>
-</div>
+
+<header class="site">
+  <div class="wrap nav">
+    <a href="#main" class="brand-mark" aria-label="Foundation company, home">FOUNDATION COMPANY</a>
+
+    <nav class="links" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#contact">Free Estimate</a>
+    </nav>
+
+    <div class="nav-cta">
+      <a href="#contact" class="btn btn-ghost nav-phone">Call Us</a>
+      <a href="#contact" class="btn btn-primary"><span class="nav-estimate-text">Get&nbsp;</span>Estimate</a>
+      <button type="button" class="burger" id="burgerBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Open menu">
+        <span class="burger-box" aria-hidden="true">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile" hidden>
+    <ul>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#contact">Free Estimate</a></li>
+      <li><a href="#contact" class="mobile-phone">Call for a Free Estimate</a></li>
+    </ul>
+  </nav>
 </header>
 
 <main id="main">
 
 <section class="hero">
-<div class="hero-overlay"></div>
+  <div class="wrap hero-split">
+    <div class="hero-copy">
+      <span class="eyebrow reveal" style="animation-delay:.05s">Foundation Repair · Concrete · Structural Solutions</span>
+      <h1 class="hero-title reveal" style="animation-delay:.15s">A Strong Foundation <span class="accent">Starts Here.</span></h1>
+      <p class="hero-sub reveal" style="animation-delay:.3s">Protect your home with practical foundation, concrete, drainage, and structural repair solutions built around honest inspections and clear recommendations.</p>
+      <div class="hero-actions reveal" style="animation-delay:.42s">
+        <a href="#contact" class="btn btn-primary">Get Free Estimate</a>
+        <a href="#contact" class="btn btn-ghost">Call for an Estimate</a>
+      </div>
+    </div>
 
-<div class="container hero-grid">
-
-<div class="hero-content">
-
-<span class="tag">Family Owned • Since 1963</span>
-
-<h1>A Strong Foundation<br>Starts Here.</h1>
-
-<p>
-For more than 60 years, Claude Allen Foundation Repair has helped
-Central Texas homeowners protect what matters most with honest
-foundation repair, house leveling, concrete work and drainage solutions.
-</p>
-
-<div class="buttons">
-<a class="btn" href="#contact">Get Free Estimate</a>
-<a class="btn-outline" href="tel:12549310435">(254) 931-0435</a>
-</div>
-
-</div>
-
-<div class="cards">
-
-<div class="card">
-<h3>60+</h3>
-<p>Years Experience</p>
-</div>
-
-<div class="card">
-<h3>★★★★★</h3>
-<p>Trusted Local Reputation</p>
-</div>
-
-<div class="card">
-<h3>Family Owned</h3>
-<p>Four Generations</p>
-</div>
-
-</div>
-
-</div>
+    <div class="hero-visual reveal" style="animation-delay:.3s">
+      <div class="visual-frame">
+        <svg class="visual-illustration" viewBox="0 0 600 720" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Illustration of a modern home at dusk, resting on a stable foundation">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#221E17"/>
+              <stop offset="55%" stop-color="#5a3a22"/>
+              <stop offset="100%" stop-color="#17140F"/>
+            </linearGradient>
+            <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#E7A15E" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#E7A15E" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2b2419"/>
+              <stop offset="100%" stop-color="#17140F"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="600" height="720" fill="url(#sky)"/>
+          <circle cx="440" cy="360" r="220" fill="url(#sun)"/>
+          <polygon points="0,470 130,430 260,460 600,410 600,720 0,720" fill="#1c1811" opacity="0.85"/>
+          <g>
+            <rect x="150" y="380" width="300" height="180" fill="#E6E1D6"/>
+            <polygon points="150,380 300,300 450,380" fill="#8A3A12"/>
+            <rect x="150" y="440" width="300" height="16" fill="#3a352c" opacity=".5"/>
+            <rect x="190" y="420" width="42" height="55" fill="#E7A15E" opacity=".85"/>
+            <rect x="368" y="420" width="42" height="55" fill="#E7A15E" opacity=".65"/>
+            <rect x="278" y="470" width="44" height="90" fill="#221E17"/>
+            <rect x="150" y="470" width="300" height="8" fill="#57626C" opacity=".7"/>
+          </g>
+          <rect x="0" y="560" width="600" height="160" fill="url(#ground)"/>
+          <rect x="120" y="558" width="360" height="10" fill="#9FB233" opacity=".55"/>
+        </svg>
+      </div>
+      <div class="trust-cards">
+        <div class="trust-card"><div class="tc-num">Expert</div><div class="tc-lbl">Foundation Service</div></div>
+        <div class="trust-card"><div class="tc-num" style="font-size:.95rem;">Built Right</div><div class="tc-lbl">Clear Solutions</div></div>
+        <div class="trust-card"><div class="tc-stars" aria-hidden="true">★★★★★</div><div class="tc-lbl">Customer Focused</div></div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section id="services" class="container">
-<h2>Services</h2>
-<div class="service-grid">
-<div class="service"><h3>Foundation Repair</h3><p>Stabilize and protect your home's foundation.</p></div>
-<div class="service"><h3>House Leveling</h3><p>Correct uneven floors and structural movement.</p></div>
-<div class="service"><h3>Concrete & Flatwork</h3><p>Driveways, sidewalks and patios.</p></div>
-<div class="service"><h3>Foam Injection</h3><p>Lift settled concrete quickly.</p></div>
+<div class="stats-bar-wrap">
+  <div class="wrap stats-bar">
+    <div class="stat"><div class="num">24/7</div><div class="lbl">Online Estimate Requests</div></div>
+    <div class="stat"><div class="num">FREE</div><div class="lbl">Initial Inspection</div></div>
+    <div class="stat"><div class="num">4</div><div class="lbl">Core Services</div></div>
+    <div class="stat"><div class="num">1</div><div class="lbl">Clear Plan</div></div>
+  </div>
 </div>
+
+<section id="services" class="services">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-eyebrow">What we fix, and how deep it goes</span>
+      <h2 class="section-title">Foundation problems don't stay on the surface.</h2>
+      <p class="section-body">Some fixes are cosmetic. Others go to bedrock. Here's where each service actually works, top to bottom.</p>
+    </div>
+
+    <div class="depth-rail">
+      <div class="ground-mark">GRADE LEVEL — 0'0"</div>
+
+      <div class="depth-item">
+        <div class="depth-tag">SURFACE</div>
+        <div>
+          <h3 class="depth-title">Concrete &amp; Flatwork</h3>
+          <p class="depth-desc">Driveways, sidewalks and patios — poured, repaired, or replaced to shed water away from your home instead of toward it.</p>
+        </div>
+      </div>
+
+      <div class="depth-item">
+        <div class="depth-tag">−1 TO −2 FT</div>
+        <div>
+          <h3 class="depth-title">Foam Injection</h3>
+          <p class="depth-desc">Lightweight polyurethane foam lifts settled slabs in hours, not days — minimal disruption to your yard or driveway.</p>
+        </div>
+      </div>
+
+      <div class="depth-item">
+        <div class="depth-tag">GRADE</div>
+        <div>
+          <h3 class="depth-title">House Leveling</h3>
+          <p class="depth-desc">We re-level the structure itself, correcting uneven floors, sticking doors and cracked drywall caused by shifting soil.</p>
+        </div>
+      </div>
+
+      <div class="depth-item">
+        <div class="depth-tag">−6 TO −10 FT</div>
+        <div>
+          <h3 class="depth-title">Foundation Repair</h3>
+          <p class="depth-desc">Steel piers driven to load-bearing strata stabilize the foundation at its source — the fix that holds for good.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section id="about" class="alt">
-<div class="container">
-<h2>A Legacy Built on Trust</h2>
-<p>Founded in 1963, the Allen family has built a reputation for honest advice, dependable workmanship and treating every customer like family.</p>
-</div>
+<section id="about" class="legacy">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-eyebrow" style="color:var(--level);">A Better Way to Repair</span>
+      <h2 class="section-title">Straight answers before the work begins.</h2>
+      <p class="section-body" style="color:var(--concrete-2);">A strong repair starts with understanding why the problem happened. We inspect first, explain what we find, and recommend only the work the property actually needs.</p>
+    </div>
+    <div class="strata">
+      <div class="stratum">
+        <div class="yr">STEP 01</div>
+        <h3 class="gen">Inspect</h3>
+        <p>Measure movement, identify visible damage, and look for the source of the problem.</p>
+      </div>
+      <div class="stratum">
+        <div class="yr">STEP 02</div>
+        <h3 class="gen">Diagnose</h3>
+        <p>Determine whether the issue comes from soil movement, drainage, settling, or structural stress.</p>
+      </div>
+      <div class="stratum">
+        <div class="yr">STEP 03</div>
+        <h3 class="gen">Recommend</h3>
+        <p>Explain the repair options, expected outcome, scope, and cost before any work begins.</p>
+      </div>
+      <div class="stratum">
+        <div class="yr">STEP 04</div>
+        <h3 class="gen">Repair</h3>
+        <p>Complete the work with a focus on stabilization, durability, and minimal disruption.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section id="reviews" class="container">
-<h2>Customer Reviews</h2>
-<div class="service-grid">
-<div class="service">★★★★★<br><br>"Outstanding work and communication."</div>
-<div class="service">★★★★★<br><br>"Professional from start to finish."</div>
-<div class="service">★★★★★<br><br>"Highly recommended."</div>
-</div>
+<section id="reviews" class="reviews">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-eyebrow">Customer Reviews</span>
+      <h2 class="section-title">What homeowners value most.</h2>
+    </div>
+    <div class="review-grid">
+      <div class="review-card">
+        <span class="stamp">VERIFIED</span>
+        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <blockquote>"Clear communication from the first inspection through the final walkthrough. Every step was explained before the work began."</blockquote>
+        <cite>— Homeowner</cite>
+      </div>
+      <div class="review-card">
+        <span class="stamp">VERIFIED</span>
+        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <blockquote>"Professional from the first estimate to the final walkthrough. The process was straightforward and easy to understand."</blockquote>
+        <cite>— Homeowner</cite>
+      </div>
+      <div class="review-card">
+        <span class="stamp">VERIFIED</span>
+        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <blockquote>"The inspection helped us understand what was actually happening underneath the structure before deciding what to repair."</blockquote>
+        <cite>— Homeowner</cite>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section id="contact" class="cta">
-<div class="container">
-<h2>Request Your Free Estimate</h2>
-<p>Call today or send us a message.</p>
-<a class="btn" href="tel:12549310435">Call (254) 931-0435</a>
-</div>
+<section id="contact" class="contact">
+  <div class="wrap">
+    <span class="section-eyebrow" style="color:var(--level);">Request Your Free Estimate</span>
+    <h2 class="section-title">Let's find out what's really going on underneath.</h2>
+    <p class="section-body">Request an inspection and get a clear explanation of what is happening, what can be repaired, and what your next step should be.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn btn-primary">Call for an Estimate</a>
+      <a href="#" class="btn btn-ghost">Send a Message</a>
+    </div>
+    <p class="phone-big" style="margin-top:2.2rem;">YOUR PHONE NUMBER</p>
+  </div>
 </section>
 
 </main>
 
-<footer>
-<p>Mockup by Phoenix Securitas Tech</p>
+<footer class="site">
+  Mockup by <a href="https://tree.phoenixsecuritas.com" target="_blank" rel="noopener">Phoenix Securitas Tech</a>
 </footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- burger menu ---- */
+  var burgerBtn = document.getElementById('burgerBtn');
+  var mobileMenu = document.getElementById('mobileMenu');
+
+  function openMenu(){
+    mobileMenu.hidden = false;
+    burgerBtn.setAttribute('aria-expanded','true');
+    burgerBtn.classList.add('is-open');
+    burgerBtn.setAttribute('aria-label','Close menu');
+    var first = mobileMenu.querySelector('a');
+    if(first) first.focus();
+  }
+  function closeMenu(returnFocus){
+    mobileMenu.hidden = true;
+    burgerBtn.setAttribute('aria-expanded','false');
+    burgerBtn.classList.remove('is-open');
+    burgerBtn.setAttribute('aria-label','Open menu');
+    if(returnFocus) burgerBtn.focus();
+  }
+  burgerBtn.addEventListener('click', function(){
+    var expanded = burgerBtn.getAttribute('aria-expanded') === 'true';
+    if(expanded){ closeMenu(false); } else { openMenu(); }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && burgerBtn.getAttribute('aria-expanded') === 'true'){
+      closeMenu(true);
+    }
+  });
+  mobileMenu.addEventListener('click', function(e){
+    if(e.target.tagName === 'A'){ closeMenu(false); }
+  });
+  document.addEventListener('click', function(e){
+    if(burgerBtn.getAttribute('aria-expanded') === 'true' &&
+       !mobileMenu.contains(e.target) && e.target !== burgerBtn && !burgerBtn.contains(e.target)){
+      closeMenu(false);
+    }
+  });
+  window.addEventListener('resize', function(){
+    if(window.innerWidth >= 860 && burgerBtn.getAttribute('aria-expanded') === 'true'){
+      closeMenu(false);
+    }
+  });
+
+  /* ---- stat count-up, triggered when the stats bar scrolls into view ---- */
+  var statEls = document.querySelectorAll('[data-count-to]');
+  function runCount(el){
+    var target = parseFloat(el.getAttribute('data-count-to'));
+    var suffix = el.getAttribute('data-suffix') || '';
+    var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    if(reduce){
+      el.textContent = target.toFixed(decimals) + suffix;
+      return;
+    }
+    var start = performance.now();
+    var duration = 1200;
+    function ease(t){ return 1 - Math.pow(1 - t, 3); }
+    function frame(now){
+      var t = Math.min(1, (now - start) / duration);
+      var val = target * ease(t);
+      el.textContent = val.toFixed(decimals) + suffix;
+      if(t < 1){ requestAnimationFrame(frame); }
+    }
+    requestAnimationFrame(frame);
+  }
+  if('IntersectionObserver' in window){
+    var statObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          runCount(entry.target);
+          statObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    statEls.forEach(function(el){ statObserver.observe(el); });
+  } else {
+    statEls.forEach(runCount);
+  }
+})();
+</script>
 
 </body>
 </html>
